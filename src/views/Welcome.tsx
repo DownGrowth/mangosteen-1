@@ -20,7 +20,6 @@ export const Welcome = defineComponent({
     const replace = throttle(() => {
       const name=(route.name||'Welcome1').toString()
       router.replace(pushMap[name])
-      console.log(pushMap)
     },500)
     watchEffect(() => {
       if (swiping.value && direction.value === "left") {
