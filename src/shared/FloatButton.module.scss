@@ -1,0 +1,16 @@
+@use "sass:math";
+.floatButton{
+    background: var(--float-button-bg);
+    width: 56px;
+    height: 56px;
+    border-radius:math.div(56px,2) ;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    bottom: 16px;
+    right: 16px;
+    .icon{
+    fill:var(--float-button-text)
+    }
+}
