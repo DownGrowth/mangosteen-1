@@ -1,6 +1,7 @@
-import { defineComponent,PropType } from 'vue';
+import { defineComponent,PropType, ref } from 'vue';
 import { MainLayout } from '../../layouts/MainLayout';
 import { Icon } from '../../shared/Icon';
+import { Tab, Tabs } from '../../shared/Tabs';
 import s from './ItemCreate.module.scss' 
 export const ItemCreate =defineComponent({
   props:{
@@ -8,13 +9,18 @@ export const ItemCreate =defineComponent({
       type: String as PropType<string>
     }
   },
-  setup: (props,context) => {
+    setup: (props, context) => {
+        const refKind = ref('支出')
+        const onUpdateSelected=(name:string)=>refKind.value=name
     return () => (
         <MainLayout>{{
          title: () => '记一笔',
          icon:()=><Icon name="left" class={s.navIcon}/>,
          default:()=><>
-          <div>main</div>
+          <Tabs selected={refKind.value} onUpdateSelected={onUpdateSelected}>
+            <Tab name="支出"></Tab>  
+            <Tab name="收入"></Tab>
+          </Tabs>
          </>
          }}</MainLayout>
     )
