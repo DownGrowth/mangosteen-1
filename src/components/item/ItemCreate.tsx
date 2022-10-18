@@ -2,6 +2,7 @@ import { defineComponent,PropType, ref } from 'vue';
 import { MainLayout } from '../../layouts/MainLayout';
 import { Icon } from '../../shared/Icon';
 import { Tab, Tabs } from '../../shared/Tabs';
+import { InputPad } from './InputPad';
 import s from './ItemCreate.module.scss' 
 export const ItemCreate =defineComponent({
   props:{
@@ -20,7 +21,10 @@ export const ItemCreate =defineComponent({
            <Tabs v-model:selected={refKind.value}>
             <Tab name="支出">1</Tab>  
             <Tab name="收入">2</Tab>
-          </Tabs>
+           </Tabs>
+           <div class={s.inputPad_wrapper}>
+             <InputPad />
+             </div>
          </>
          }}</MainLayout>
     )
