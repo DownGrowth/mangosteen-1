@@ -1,19 +1,21 @@
-.button{
-   width:100%;
-   &_wrapper{
-    padding: 16px 16px;
-}
-}
-.pig{
+.button {
+    width: 100%;
+    &_wrapper {
+      padding: 16px 16px;
+    }
+  }
+  
+  .pig{
     width: 128px;
     height: 128px;
     &_wrapper{
-        padding: 120px 0;
+      padding: 120px 0;
     }
-}
-.navIcon{
+  }
+  
+  .navIcon{
     width: 30px;
     height: 30px;
     position: relative;
-    top:4px;
-}
+    top: 2px;
+  }
