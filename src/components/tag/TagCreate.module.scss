@@ -11,6 +11,7 @@
   }
   .formRow {
     margin-top: 8px;
+
   }
   .formLabel {
   }
@@ -42,6 +43,7 @@
     }
     &_errorHint {
       margin-top: 4px;
+      height:12px ;
       color: var(--error-color);
       font-size: 12px;
     }
