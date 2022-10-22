@@ -59,7 +59,7 @@ export const ItemCreate =defineComponent({
         { id: 19, name: '滴滴', sign: '￥', category: 'income' },
       ])
     return () => (
-        <MainLayout class={s.layout}>{{
+        <MainLayout>{{
          title: () => '记一笔',
          icon:()=><Icon name="left" class={s.navIcon}/>,
          default:()=><>
