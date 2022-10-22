@@ -57,7 +57,6 @@ export const TagCreate =defineComponent({
                 <div class={s.formItem_errorHint}>
                   <span>{errors['sign']?.[0]}</span>
                             </div>
-                            
                         </label>
                     </div>
                     <p class={s.tips}>记账时长按标签即可进行编辑</p>
