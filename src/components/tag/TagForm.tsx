@@ -1,9 +1,7 @@
 
 import { defineComponent,PropType, reactive } from 'vue';
-import { MainLayout } from '../../layouts/MainLayout';
 import { Button } from '../../shared/Button';
 import { EmojiSelect } from '../../shared/EmojiSelect';
-import { Icon } from '../../shared/Icon';
 import { Rules, validate } from '../../shared/validate';
 import s from './Tag.module.scss' 
 export const TagForm =defineComponent({
@@ -31,9 +29,7 @@ export const TagForm =defineComponent({
       Object.assign(errors, validate(formData, rules))
       e.preventDefault()
     }
-    return () => (
-
-            
+    return () => (           
             <form class={s.form} onSubmit={onSubmit}>
                 |{formData.name }|
              <div class={s.formRow}>
