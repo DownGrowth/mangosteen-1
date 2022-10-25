@@ -1,13 +1,13 @@
-import { defineComponent,ref } from 'vue';
+import { defineComponent, ref } from 'vue';
 import { RouterLink } from 'vue-router';
 import { MainLayout } from '../layouts/MainLayout';
 import { Button } from '../shared/Button';
 import { Center } from '../shared/Center';
 import { FloatButton } from '../shared/FloatButton';
-import { Icon } from '../shared/Icon'; 
+import { Icon } from '../shared/Icon';
 import { OverlayIcon } from '../shared/Overlay';
 import s from './StartPage.module.scss';
-export const StartPage=defineComponent({
+export const StartPage = defineComponent({
   setup: (props, context) => {
     return () => (
       <MainLayout>{
@@ -27,8 +27,8 @@ export const StartPage=defineComponent({
               <FloatButton iconName='add' />
             </RouterLink>
           </>
-          }
-        }</MainLayout>
+        }
+      }</MainLayout>
     )
   }
 })
