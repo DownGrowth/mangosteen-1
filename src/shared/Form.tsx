@@ -33,9 +33,9 @@ export const FormItem = defineComponent({
       type: String
     }
   },
-  emits:['update:modelValue'],
+  emits: ['update:modelValue'],
   setup: (props, context) => {
-    const refDateVisible=ref(false)
+    const refDateVisible = ref(false)
     const content = computed(() => {
       switch (props.type) {
         case 'text':
@@ -54,9 +54,9 @@ export const FormItem = defineComponent({
             <Popup position='bottom' v-model:show={refDateVisible.value} >
               <DatetimePicker value={props.modelValue} type="date" title="选择年月日" onConfirm={(date: Date) => {
                 context.emit('update:modelValue', new Time(date).format())
-                refDateVisible.value=false
+                refDateVisible.value = false
               }}
-              onCancel={()=>refDateVisible.value=false}/>
+                onCancel={() => refDateVisible.value = false} />
             </Popup>
           </>
         case undefined:
