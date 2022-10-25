@@ -1,3 +1,16 @@
 .wrapper{
-    
+    padding: 16px;
+}
+.formItemWrapper{
+    display: flex;
+    justify-content: center;
+    .formItem{
+        width: 200px;
+        padding: 0px 20px 8px 10px;
+        label{
+            span{
+                margin-left: 10px;
+            }
+        }
+    }
 }
