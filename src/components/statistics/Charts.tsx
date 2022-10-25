@@ -1,4 +1,4 @@
-import { defineComponent, PropType, ref } from "vue";
+import { computed, defineComponent, PropType, ref } from "vue";
 import { FormItem } from "../../shared/Form";
 import { Bars } from "./Bars";
 import s from "./Charts.module.scss";
@@ -19,7 +19,15 @@ export const Charts = defineComponent({
   setup: (props, context) => {
     const category = ref("expenses");
     const chartRef = ref("pie");
-
+    const selected = computed(() => {
+      if (chartRef.value === "line") {
+        return <LineChart />;
+      } else if (chartRef.value === "pie") {
+        return <PieChart />;
+      } else {
+        return <Bars />;
+      }
+    });
     return () => (
       <div class={s.wrapper}>
         <div class={s.formItemWrapper}>
@@ -40,13 +48,12 @@ export const Charts = defineComponent({
             options={[
               { value: "pie", text: "饼状图" },
               { value: "line", text: "折线图" },
+              { value: "bar", text: "条形图" },
             ]}
             v-model={chartRef.value}
           />
         </div>
-        <LineChart />
-        <PieChart />
-        <Bars />
+        <div>{selected.value}</div>
       </div>
     );
   },
