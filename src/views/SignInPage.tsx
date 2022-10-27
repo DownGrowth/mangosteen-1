@@ -22,7 +22,11 @@ export const SignInPage = defineComponent({
         .post("/api/v1/validation_codes", {
           email: formData.email,
         })
-        .catch(() => {
+        .catch(function (error) {
+          if (error.response) {
+            console.log("12345");
+            return Promise.reject(error);
+          }
           //失败
         });
       //成功
