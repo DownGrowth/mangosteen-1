@@ -29,6 +29,10 @@ export const SignInPage = defineComponent({
         .post("/validation_codes", { email: formData.email })
         .catch(onError);
       refValidationCode.value.startCount();
+      Object.assign(errors, {
+        email: [],
+        code: [],
+      });
     };
     const onSubmit = (e: Event) => {
       e.preventDefault();
@@ -70,6 +74,7 @@ export const SignInPage = defineComponent({
                   error={errors.email?.[0]}
                 />
                 <FormItem
+                  countFrom={3}
                   ref={refValidationCode}
                   label="验证码"
                   type="validationCode"
