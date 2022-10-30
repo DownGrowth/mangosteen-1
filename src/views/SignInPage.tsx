@@ -1,11 +1,12 @@
-import axios from "axios";
 import { defineComponent, PropType, reactive, ref } from "vue";
+import { useBool } from "../hooks/useBool";
 import { MainLayout } from "../layouts/MainLayout";
 import { Button } from "../shared/Button";
 import { Form, FormItem } from "../shared/Form";
+import { history } from "../shared/history";
 import { http } from "../shared/Http";
 import { Icon } from "../shared/Icon";
-import { validate } from "../shared/validate";
+import { hasError, validate } from "../shared/validate";
 import s from "./SignInPage.module.scss";
 export const SignInPage = defineComponent({
   setup: (props, context) => {
@@ -24,17 +25,28 @@ export const SignInPage = defineComponent({
       throw error;
     };
     const refValidationCode = ref<any>();
+    const {
+      ref: refDiabled,
+      toggle,
+      on: disabled,
+      off: enable,
+    } = useBool(false);
     const onClickSendValidationCode = async () => {
+      disabled();
       const response = await http
         .post("/validation_codes", { email: formData.email })
-        .catch(onError);
-      refValidationCode.value.startCount();
+        .catch(onError)
+        .finally(enable);
       Object.assign(errors, {
         email: [],
         code: [],
       });
+      refValidationCode.value.startCount();
+
+      console.log(errors);
     };
-    const onSubmit = (e: Event) => {
+
+    const onSubmit = async (e: Event) => {
       e.preventDefault();
       Object.assign(errors, {
         email: [],
@@ -53,6 +65,13 @@ export const SignInPage = defineComponent({
           { key: "code", type: "required", message: "必填" },
         ])
       );
+      if (!hasError(errors)) {
+        const response = await http
+          .post<{ jwt: string }>("/session", formData)
+          .catch(onError);
+        localStorage.setItem("jwt", response.data.jwt);
+        history.push("/");
+      }
     };
     return () => (
       <MainLayout>
@@ -65,6 +84,7 @@ export const SignInPage = defineComponent({
                 <Icon name="mangosteen" class={s.icon} />
                 <h1 class={s.appName}>山竹记账</h1>
               </div>
+              <div>{JSON.stringify(formData)}</div>
               <Form onSubmit={onSubmit}>
                 <FormItem
                   label="邮箱地址"
@@ -75,6 +95,7 @@ export const SignInPage = defineComponent({
                 />
                 <FormItem
                   countFrom={3}
+                  disabled={refDiabled.value}
                   ref={refValidationCode}
                   label="验证码"
                   type="validationCode"
@@ -84,7 +105,7 @@ export const SignInPage = defineComponent({
                   error={errors.code?.[0]}
                 />
                 <FormItem style={{ paddingTop: "68px" }}>
-                  <Button>登录</Button>
+                  <Button type="submit">登录</Button>
                 </FormItem>
               </Form>
             </div>

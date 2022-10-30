@@ -3,6 +3,7 @@ import { computed, defineComponent, PropType, ref, VNode } from "vue";
 import { Button } from "./Button";
 import { EmojiSelect } from "./EmojiSelect";
 import s from "./Form.module.scss";
+import { getFriendlyError } from "./getFriendlyError";
 import { Time } from "./time";
 export const Form = defineComponent({
   props: {
@@ -41,6 +42,9 @@ export const FormItem = defineComponent({
     countFrom: {
       type: Number,
       default: 60,
+    },
+    disabled: {
+      type: Boolean,
     },
   },
   emits: ["update:modelValue"],
@@ -98,7 +102,7 @@ export const FormItem = defineComponent({
                 class={[s.formItem, s.input, s.validationCodeInput]}
               />
               <Button
-                disabled={isCounting.value}
+                disabled={isCounting.value || props.disabled}
                 onClick={props.onClick}
                 class={[s.formItem, s.button, s.validationCodeButton]}
               >
@@ -157,7 +161,7 @@ export const FormItem = defineComponent({
             {props.label && <span class={s.formItem_name}>{props.label}</span>}
             <div class={s.formItem_value}>{content.value}</div>
             <div class={s.formItem_errorHint}>
-              <span>{props.error ?? "　"}</span>
+              <span>{props.error ? getFriendlyError(props.error) : "　"}</span>
             </div>
           </label>
         </div>
