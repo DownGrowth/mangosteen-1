@@ -19,12 +19,7 @@ export const SignInPage = defineComponent({
       email: [],
       code: [],
     });
-    const onError = (error: any) => {
-      if (error.response.status === 422) {
-        Object.assign(errors, error.response.data.errors);
-      }
-      throw error;
-    };
+
     const refValidationCode = ref<any>();
     const {
       ref: refDiabled,
@@ -34,18 +29,7 @@ export const SignInPage = defineComponent({
     } = useBool(false);
     const router = useRouter();
     const route = useRoute();
-    const onClickSendValidationCode = async () => {
-      disabled();
-      const response = await http
-        .post("/validation_codes", { email: formData.email })
-        .catch(onError)
-        .finally(enable);
-      Object.assign(errors, {
-        email: [],
-        code: [],
-      });
-      refValidationCode.value.startCount();
-    };
+
     const onSubmit = async (e: Event) => {
       e.preventDefault();
       Object.assign(errors, {
@@ -67,8 +51,11 @@ export const SignInPage = defineComponent({
       );
       if (!hasError(errors)) {
         const response = await http
-          .post<{ jwt: string }>("/session", formData)
+          .post<{ jwt: string }>("/session", formData, {
+            params: { _mock: "session" },
+          })
           .catch(onError);
+        console.log(response);
         localStorage.setItem("jwt", response.data.jwt);
         // router.push("/sign_in?return_to=" + encodeURIComponent(route.fullPath));
         const returnTo = route.query.return_to?.toString();
@@ -77,6 +64,24 @@ export const SignInPage = defineComponent({
         // const returnTo = localStorage.getItem("returnTo");
         // router.push(returnTo || "/");
       }
+    };
+    const onError = (error: any) => {
+      if (error.response.status === 422) {
+        Object.assign(errors, error.response.data.errors);
+      }
+      throw error;
+    };
+    const onClickSendValidationCode = async () => {
+      disabled();
+      const response = await http
+        .post("/validation_codes", { email: formData.email })
+        .catch(onError)
+        .finally(enable);
+      Object.assign(errors, {
+        email: [],
+        code: [],
+      });
+      refValidationCode.value.startCount();
     };
     return () => (
       <MainLayout>
