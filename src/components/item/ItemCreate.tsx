@@ -1,4 +1,4 @@
-import { defineComponent, KeepAlive, onMounted, PropType, ref } from "vue";
+import { defineComponent, PropType, ref } from "vue";
 import { MainLayout } from "../../layouts/MainLayout";
 import { Icon } from "../../shared/Icon";
 import { Tab, Tabs } from "../../shared/Tabs";
@@ -13,6 +13,9 @@ export const ItemCreate = defineComponent({
   },
   setup: (props, context) => {
     const refKind = ref("支出");
+    const refTagId = ref<number>();
+    const refHappenAt = ref<string>(new Date().toISOString());
+    const refAmount = ref<number>(0);
     return () => (
       <MainLayout>
         {{
@@ -29,14 +32,18 @@ export const ItemCreate = defineComponent({
                   class={s.tabs}
                 >
                   <Tab name="支出">
-                    <Tags kind="expenses" />
+                    {refAmount.value}
+                    <Tags kind="expenses" v-model:selected={refTagId.value} />
                   </Tab>
                   <Tab name="收入">
-                    <Tags kind="income" />
+                    <Tags kind="income" v-model:selected={refTagId.value} />
                   </Tab>
                 </Tabs>
                 <div class={s.inputPad_wrapper}>
-                  <InputPad />
+                  <InputPad
+                    v-model:happenAt={refHappenAt.value}
+                    v-model:amount={refAmount.value}
+                  />
                 </div>
               </div>
             </>
