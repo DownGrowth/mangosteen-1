@@ -1,8 +1,6 @@
 import { defineComponent, PropType, reactive } from "vue";
 import { MainLayout } from "../../layouts/MainLayout";
 import { BackIcon } from "../../shared/BackIcon";
-import { Icon } from "../../shared/Icon";
-import s from "./Tag.module.scss";
 import { TagForm } from "./TagForm";
 export const TagCreate = defineComponent({
   props: {
