@@ -3,6 +3,7 @@ import { Dialog } from "vant";
 import { defineComponent, PropType, reactive, ref } from "vue";
 import { useRouter } from "vue-router";
 import { MainLayout } from "../../layouts/MainLayout";
+import { BackIcon } from "../../shared/BackIcon";
 import { http } from "../../shared/Http";
 import { Icon } from "../../shared/Icon";
 import { Tab, Tabs } from "../../shared/Tabs";
@@ -23,15 +24,14 @@ export const ItemCreate = defineComponent({
       happen_at: new Date().toISOString(),
     });
     const router = useRouter();
-    const onError = () => {
-      (error: AxiosError<ResourceError>) => {
-        if (error.response?.status === 422) {
-          Dialog.alert({
-            message: Object.values(error.response.data.errors).join("\n"),
-          });
-        }
-        throw error;
-      };
+    const onError = (error: AxiosError<ResourceError>) => {
+      if (error.response?.status === 422) {
+        Dialog.alert({
+          title: "出错",
+          message: Object.values(error.response.data.errors).join("\n"),
+        });
+      }
+      throw error;
     };
     const onSubmit = async () => {
       await http
@@ -45,17 +45,12 @@ export const ItemCreate = defineComponent({
       <MainLayout>
         {{
           title: () => "记一笔",
-          icon: () => <Icon name="left" class={s.navIcon} />,
+          icon: () => <BackIcon />,
           default: () => (
             <>
               {/* <Tabs selected={refKind.value} onUpdateSelected={(name)=>refKind.value=name}> */}
               <div class={s.wrapper}>
-                <Tabs
-                  v-model:selected={formData.kind}
-                  selected={formData.kind}
-                  onUpdate:selected={() => console.log(1)}
-                  class={s.tabs}
-                >
+                <Tabs v-model:selected={formData.kind} class={s.tabs}>
                   <Tab name="支出">
                     <Tags
                       kind="expenses"

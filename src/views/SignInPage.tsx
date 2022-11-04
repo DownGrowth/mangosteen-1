@@ -2,6 +2,7 @@ import { defineComponent, PropType, reactive, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useBool } from "../hooks/useBool";
 import { MainLayout } from "../layouts/MainLayout";
+import { BackIcon } from "../shared/BackIcon";
 import { Button } from "../shared/Button";
 import { Form, FormItem } from "../shared/Form";
 import { http } from "../shared/Http";
@@ -53,7 +54,6 @@ export const SignInPage = defineComponent({
         const response = await http
           .post<{ jwt: string }>("/session", formData)
           .catch(onError);
-        console.log(response);
         localStorage.setItem("jwt", response.data.jwt);
         // router.push("/sign_in?return_to=" + encodeURIComponent(route.fullPath));
         const returnTo = route.query.return_to?.toString();
@@ -85,7 +85,7 @@ export const SignInPage = defineComponent({
       <MainLayout>
         {{
           title: () => "登录",
-          icon: () => <Icon name="left" />,
+          icon: () => <BackIcon />,
           default: () => (
             <div class={s.wrapper}>
               <div class={s.logo}>
