@@ -34,6 +34,11 @@
     > .icon {
       margin-right: 12px;
     }
+    .email{
+      width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
   }
   .icon{
     width: 32px;
