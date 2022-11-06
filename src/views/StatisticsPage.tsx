@@ -8,6 +8,8 @@ export const StatisticsPage = defineComponent({
     },
   },
   setup: (props, context) => {
-    return () => <TimeTabsLayout component={Charts} />;
+    return () => (
+      <TimeTabsLayout rerenderOnSwitchTab={true} component={Charts} />
+    );
   },
 });
