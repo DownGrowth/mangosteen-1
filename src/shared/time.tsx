@@ -46,6 +46,9 @@ export class Time {
   getRaw() {
     return this.date;
   }
+  getTimestamp() {
+    return this.date.getTime();
+  }
   add(
     amount: number,
     unit:
@@ -77,20 +80,22 @@ export class Time {
         date.setDate(Math.min(d, d2)); //对比本月和下个月的天数，更新小的那个
         break;
       case "day":
-        date.setFullYear(date.getFullYear() + amount);
+        date.setDate(date.getDate() + amount);
         break;
       case "hour":
-        date.setFullYear(date.getFullYear() + amount);
+        date.setHours(date.getHours() + amount);
         break;
       case "minute":
-        date.setFullYear(date.getFullYear() + amount);
+        date.setMinutes(date.getMinutes() + amount);
         break;
       case "second":
-        date.setFullYear(date.getFullYear() + amount);
+        date.setSeconds(date.getSeconds() + amount);
         break;
       case "millisecond":
-        date.setFullYear(date.getFullYear() + amount);
+        date.setMilliseconds(date.getMilliseconds() + amount);
         break;
+      default:
+        throw new Error("Time.add: unknown unit");
     }
     return new Time(date);
   }
