@@ -38,7 +38,7 @@ export const Charts = defineComponent({
       } else if (chartRef.value === "pie") {
         return <PieChart data={betterData2.value} />;
       } else {
-        return <Bars />;
+        return <Bars data={betterData3.value} />;
       }
     });
     const data1 = ref<Data1>([]);
@@ -99,6 +99,15 @@ export const Charts = defineComponent({
     };
     onMounted(fetchData2);
     watch(() => [kind.value, chartRef.value], fetchData2);
+    const betterData3 = computed<
+      { tag: Tag; amount: number; percent: number }[]
+    >(() => {
+      const total = data2.value.reduce((sum, item) => sum + item.amount, 0);
+      return data2.value.map((item) => ({
+        ...item,
+        percent: Math.round((item.amount / total) * 100),
+      }));
+    });
     return () => (
       <div class={s.wrapper}>
         <div class={s.formItemWrapper}>
