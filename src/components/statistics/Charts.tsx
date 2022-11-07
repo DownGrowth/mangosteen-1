@@ -1,4 +1,11 @@
-import { computed, defineComponent, onMounted, PropType, ref } from "vue";
+import {
+  computed,
+  defineComponent,
+  onMounted,
+  PropType,
+  ref,
+  watch,
+} from "vue";
 import { FormItem } from "../../shared/Form";
 import { http } from "../../shared/Http";
 import { Time } from "../../shared/time";
@@ -9,6 +16,8 @@ import { PieChart } from "./PieChart";
 const DAY = 24 * 3600 * 1000;
 type Data1Item = { happen_at: string; amount: number };
 type Data1 = Data1Item[];
+type Data2Item = { tag_id: number; tag: Tag; amount: number };
+type Data2 = Data2Item[];
 export const Charts = defineComponent({
   props: {
     startDate: {
@@ -27,7 +36,7 @@ export const Charts = defineComponent({
       if (chartRef.value === "line") {
         return <LineChart data={betterData1.value} />;
       } else if (chartRef.value === "pie") {
-        return <PieChart />;
+        return <PieChart data={betterData2.value} />;
       } else {
         return <Bars />;
       }
@@ -52,20 +61,44 @@ export const Charts = defineComponent({
         return [new Date(time).toISOString(), amount];
       });
     });
-    onMounted(async () => {
+    const fetchData1 = async () => {
       const response = await http.get<{ groups: Data1; summary: number }>(
         "/items/summary",
         {
           happen_after: props.startDate,
           happen_before: props.endDate,
           kind: kind.value,
+          group_by: "happen_at",
           _mock: "itemSummary",
         }
       );
-      console.log("response.data");
-      console.log(response.data);
       data1.value = response.data.groups;
-    });
+    };
+    onMounted(fetchData1);
+    watch(() => [kind.value, chartRef.value], fetchData1);
+    //data2
+    const data2 = ref<Data2>([]);
+    const betterData2 = computed<{ name: string; value: number }[]>(() =>
+      data2.value.map((item) => ({
+        name: item.tag.name,
+        value: item.amount,
+      }))
+    );
+    const fetchData2 = async () => {
+      const response = await http.get<{ groups: Data2; summary: number }>(
+        "/items/summary",
+        {
+          happen_after: props.startDate,
+          happen_before: props.endDate,
+          kind: kind.value,
+          group_by: "tag_id",
+          _mock: "itemSummary",
+        }
+      );
+      data2.value = response.data.groups;
+    };
+    onMounted(fetchData2);
+    watch(() => [kind.value, chartRef.value], fetchData2);
     return () => (
       <div class={s.wrapper}>
         <div class={s.formItemWrapper}>
@@ -84,8 +117,8 @@ export const Charts = defineComponent({
             label="图表类型"
             type="select"
             options={[
-              { value: "pie", text: "饼状图" },
               { value: "line", text: "折线图" },
+              { value: "pie", text: "饼状图" },
               { value: "bar", text: "条形图" },
             ]}
             v-model={chartRef.value}

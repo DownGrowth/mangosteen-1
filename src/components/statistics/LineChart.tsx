@@ -49,7 +49,6 @@ export const LineChart = defineComponent({
   },
   setup: (props, context) => {
     const refDiv = ref<HTMLDivElement>();
-    const refChart = ref<echarts.ECharts>();
     let chart: echarts.ECharts | undefined = undefined;
     onMounted(() => {
       if (refDiv.value === undefined) {
