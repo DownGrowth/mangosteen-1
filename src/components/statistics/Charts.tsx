@@ -70,7 +70,7 @@ export const Charts = defineComponent({
           kind: kind.value,
           group_by: "happen_at",
         },
-        { _mock: "itemSummary" }
+        { _mock: "itemSummary", _autoLoading: true }
       );
       data1.value = response.data.groups;
     };
