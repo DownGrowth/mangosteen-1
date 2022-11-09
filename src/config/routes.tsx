@@ -11,6 +11,7 @@ import { Second } from "../components/welcome/Second";
 import { SecondActions } from "../components/welcome/SecondActions";
 import { Third } from "../components/welcome/Third";
 import { ThirdActions } from "../components/welcome/ThirdActions";
+import { ComingSoon } from "../shared/ComingSoon";
 import { ItemPage } from "../views/ItemPage";
 import { SignInPage } from "../views/SignInPage";
 import { StatisticsPage } from "../views/StatisticsPage";
@@ -73,5 +74,13 @@ export const routes: RouteRecordRaw[] = [
   {
     path: "/statistics",
     component: StatisticsPage,
+  },
+  {
+    path: "/export",
+    component: ComingSoon,
+  },
+  {
+    path: "/notify",
+    component: ComingSoon,
   },
 ];

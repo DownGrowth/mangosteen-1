@@ -1,0 +1,17 @@
+.text{
+    text-align: center;
+    font-size: 32px;
+  }
+  
+  .pig{
+    width: 128px;
+    height: 128px;
+    &_wrapper{
+      padding: 120px 0;
+    }
+  }
+  .back{
+    width: 36px;
+    height: 36px;
+    margin-top: 10px;
+  }
