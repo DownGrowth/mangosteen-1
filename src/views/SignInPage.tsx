@@ -30,13 +30,21 @@ export const SignInPage = defineComponent({
     } = useBool(false);
     const router = useRouter();
     const route = useRoute();
-
-    const onSubmit = async (e: Event) => {
-      e.preventDefault();
+    const onError = (error: any) => {
+      if (error.response.status === 422) {
+        Object.assign(errors, error.response.data.errors);
+      }
+      throw error;
+    };
+    const clearError = () => {
       Object.assign(errors, {
         email: [],
         code: [],
       });
+    };
+    const onSubmit = async (e: Event) => {
+      e.preventDefault();
+      clearError();
       Object.assign(
         errors,
         validate(formData, [
@@ -63,23 +71,35 @@ export const SignInPage = defineComponent({
         // router.push(returnTo || "/");
       }
     };
-    const onError = (error: any) => {
-      if (error.response.status === 422) {
-        Object.assign(errors, error.response.data.errors);
-      }
-      throw error;
-    };
     const onClickSendValidationCode = async () => {
       disabled();
-      const response = await http
-        .post("/validation_codes", { email: formData.email })
-        .catch(onError)
-        .finally(enable);
-      Object.assign(errors, {
-        email: [],
-        code: [],
-      });
-      refValidationCode.value.startCount();
+      clearError();
+      Object.assign(
+        errors,
+        validate(formData, [
+          { key: "email", type: "required", message: "必填" },
+          {
+            key: "email",
+            type: "pattern",
+            regex: /.+@.+/,
+            message: "必须是邮箱地址",
+          },
+        ])
+      );
+      if (errors.email[0]) {
+        enable();
+      } else {
+        await http
+          .post(
+            "/validation_codes",
+            { email: formData.email },
+            { _autoLoading: true }
+          )
+          .catch(onError)
+          .finally(enable);
+        clearError();
+        refValidationCode.value.startCount();
+      }
     };
     return () => (
       <MainLayout>

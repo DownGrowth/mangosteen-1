@@ -23,11 +23,14 @@ export const Tags = defineComponent({
       fetchTags,
       hasMore,
     } = useTags((page) => {
-      return http.get<Resources<Tag>>("/tags", {
-        kind: props.kind,
-        page: page + 1,
-        _mock: "tagIndex",
-      });
+      return http.get<Resources<Tag>>(
+        "/tags",
+        {
+          kind: props.kind,
+          page: page + 1,
+        },
+        { _mock: "tagIndex" }
+      );
     });
     const onSelect = (tag: Tag) => {
       context.emit("update:selected", tag.id);
