@@ -1,3 +1,5 @@
+import { toRaw } from "vue";
+
 interface FData {
   [k: string]: JSONValue;
 }
@@ -21,7 +23,12 @@ export const validate = <T extends FData>(formData: T, rules: Rules<T>) => {
     const value = formData[key];
     switch (type) {
       case "required":
-        if (value === null || value === undefined || value === "") {
+        if (
+          value === null ||
+          value === undefined ||
+          value === "" ||
+          value.length === 0
+        ) {
           errors[key] = errors[key] ?? [];
           errors[key]?.push(message);
         }
