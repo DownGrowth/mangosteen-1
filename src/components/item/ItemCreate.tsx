@@ -87,6 +87,7 @@ export const ItemCreate = defineComponent({
             <>
               {/* <Tabs selected={refKind.value} onUpdateSelected={(name)=>refKind.value=name}> */}
               <div class={s.wrapper}>
+                <div>{JSON.stringify(formData)}</div>
                 <Tabs v-model:selected={formData.kind} class={s.tabs}>
                   <Tab value="expenses" name="支出">
                     <Tags
