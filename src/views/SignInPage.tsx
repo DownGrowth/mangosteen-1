@@ -86,7 +86,7 @@ export const SignInPage = defineComponent({
           },
         ])
       );
-      if (errors.email[0]) {
+      if (hasError(errors)) {
         enable();
       } else {
         await http
