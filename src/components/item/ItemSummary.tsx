@@ -9,7 +9,6 @@ import { http } from "../../shared/Http";
 import { Icon } from "../../shared/Icon";
 import { Money } from "../../shared/Money";
 import { useItemStore } from "../../stores/useItemStore";
-import { useMeStroe } from "../../stores/useMeStore";
 import s from "./ItemSummary.module.scss";
 export const ItemSummary = defineComponent({
   props: {
@@ -129,7 +128,7 @@ export const ItemSummary = defineComponent({
               {itemStore.hasMore ? (
                 <Button
                   onClick={() =>
-                    itemStore.fetchItems(props.startDate, props.endDate)
+                    itemStore.fetchNextPage(props.startDate, props.endDate)
                   }
                 >
                   加载更多
