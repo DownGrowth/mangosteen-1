@@ -4,10 +4,11 @@ import { App } from "./App";
 import { createRouter } from "vue-router";
 import { history } from "./shared/history";
 import "@svgstore";
-import { fetchMe, mePromise } from "./shared/me";
+import { createPinia } from "pinia";
+import { useMeStroe } from "./stores/useMeStore";
 
 const router = createRouter({ history, routes });
-fetchMe();
+
 const whiteList: Record<string, "exact" | "startsWith"> = {
   "/": "exact",
   "/items": "exact",
@@ -24,12 +25,16 @@ router.beforeEach((to, from) => {
       return true;
     }
   }
-  return mePromise!.then(
+  return meStroe.mePromise!.then(
     () => true,
     () => "/sign_in?return_to=" + to.path
   );
 });
 
+const pinia = createPinia();
 const app = createApp(App);
 app.use(router);
+app.use(pinia);
 app.mount("#app");
+const meStroe = useMeStroe();
+meStroe.fetchMe();
