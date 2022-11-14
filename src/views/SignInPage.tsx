@@ -113,7 +113,6 @@ export const SignInPage = defineComponent({
                 <Icon name="mangosteen" class={s.icon} />
                 <h1 class={s.appName}>山竹记账</h1>
               </div>
-              <div>{JSON.stringify(formData)}</div>
               <Form onSubmit={onSubmit}>
                 <FormItem
                   label="邮箱地址"

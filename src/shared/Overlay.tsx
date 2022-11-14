@@ -1,6 +1,6 @@
 import { Dialog } from "vant";
 import { defineComponent, onMounted, PropType, ref } from "vue";
-import { RouterLink, useRoute } from "vue-router";
+import { RouterLink, useRoute, useRouter } from "vue-router";
 import { useMeStroe } from "../stores/useMeStore";
 import { Icon } from "./Icon";
 import s from "./Overlay.module.scss";
@@ -16,6 +16,7 @@ export const Overlay = defineComponent({
       props.onClose?.();
     };
     const route = useRoute();
+    const router = useRouter();
     const me = ref<User>();
     onMounted(async () => {
       const response = await meStore.mePromise;
@@ -25,8 +26,10 @@ export const Overlay = defineComponent({
       Dialog.confirm({
         title: "确认",
         message: "你真的要退出登录吗？",
+      }).then(() => {
+        localStorage.removeItem("jwt");
+        router.go(0);
       });
-      localStorage.removeItem("jwt");
     };
     return () => (
       <>
