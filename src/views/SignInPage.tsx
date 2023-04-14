@@ -14,7 +14,7 @@ export const SignInPage = defineComponent({
   setup: (props, context) => {
     const meStore = useMeStroe();
     const formData = reactive({
-      email: "",
+      email: "1209157041@qq.com",
       code: "",
     });
     const errors = reactive({
